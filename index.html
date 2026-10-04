@@ -66,6 +66,16 @@ footer h2{font-size:2.4rem;margin-bottom:1rem}
 footer a{color:var(--rose)}
 footer a:hover{color:#fff}
 
+.galleria{display:block;position:relative;padding:0}
+.scorrevole{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.scorrevole::-webkit-scrollbar{display:none}
+.scorrevole img{flex:0 0 100%;scroll-snap-align:center}
+.freccia{position:absolute;top:50%;transform:translateY(-50%);width:2.75rem;height:2.75rem;border:0;border-radius:50%;background:rgba(63,11,24,.85);color:#fff;font-size:1.8rem;line-height:1;cursor:pointer}
+.freccia:hover{background:#fff;color:#3F0B18}
+.prec{left:.75rem}
+.succ{right:.75rem}
+.conta{position:absolute;bottom:.75rem;right:.75rem;background:rgba(63,11,24,.85);color:#fff;padding:.15rem .7rem;border-radius:999px;font-size:.9rem}
+
 @media (max-width:52rem){
   .progetto,.chi .wrap{grid-template-columns:1fr}
   .progetto.inverso .testo{order:0}
@@ -173,7 +183,23 @@ footer a:hover{color:#fff}
         <p>Un ambiente tridimensionale realistico, una stanza, creato interamente in Blender. Ho seguito tutta la pipeline: modellazione poligonale, posizionamento strategico delle camere virtuali e setup avanzato dell'illuminazione.</p>
         <p class="ruolo"><strong>Ruolo</strong> 3D artist</p>
       </div>
-      <div class="media">Qui va un render del progetto</div>
+      <div class="media galleria" id="galleria-stanza">
+  <div class="scorrevole">
+    <img src="images/cucina.png" alt="Stanza 3D, immagine 1">
+    <img src="images/dettaglio_cucina.png" alt="Stanza 3D, immagine 2">
+    <img src="images/dettaglio_mobile_giorno.png" alt="Stanza 3D, immagine 3">
+    <img src="images/dettaglio_uovo_notte_1.png" alt="Stanza 3D, immagine 4">
+    <img src="images/divano_porta.png" alt="Stanza 3D, immagine 5">
+    <img src="images/frigo_notte.png" alt="Stanza 3D, immagine 6">
+    <img src="images/Mensola_cucina_giorno.png" alt="Stanza 3D, immagine 7">
+    <img src="images/post_it.png" alt="Stanza 3D, immagine 8">
+    <img src="images/tv_notte.png" alt="Stanza 3D, immagine 9">
+    <img src="images/vetrata_notte.png" alt="Stanza 3D, immagine 10">
+  </div>
+  <button class="freccia prec" aria-label="Immagine precedente">&#8249;</button>
+  <button class="freccia succ" aria-label="Immagine successiva">&#8250;</button>
+  <span class="conta">1 / 10</span>
+</div>
     </div>
   </section>
 
@@ -213,6 +239,27 @@ footer a:hover{color:#fff}
     </div>
   </div>
 </footer>
+
+<script>
+(function(){
+  var g=document.getElementById('galleria-stanza');
+  var s=g.querySelector('.scorrevole');
+  var n=s.children.length;
+  var c=g.querySelector('.conta');
+  function vai(d){
+    var i=Math.round(s.scrollLeft/s.clientWidth)+d;
+    if(i<0)i=n-1;
+    if(i>=n)i=0;
+    s.scrollTo({left:i*s.clientWidth,behavior:'smooth'});
+  }
+  g.querySelector('.prec').onclick=function(){vai(-1)};
+  g.querySelector('.succ').onclick=function(){vai(1)};
+  s.addEventListener('scroll',function(){
+    c.textContent=(Math.round(s.scrollLeft/s.clientWidth)+1)+' / '+n;
+  });
+})();
+</script>
+
 
 </body>
 </html>
